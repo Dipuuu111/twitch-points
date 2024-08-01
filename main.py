@@ -111,46 +111,9 @@ twitch_miner.mine(
         Streamer("hitsquadgodfather", settings=StreamerSettings(make_predictions=True  , follow_raid=True , claim_drops=True  , watch_streak=True , bet=BetSettings(strategy=Strategy.SMART      , percentage=5 , stealth_mode=True,  percentage_gap=20 , max_points=234000 , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_USERS,      where=Condition.LTE, value=800 ) ) )),
         
         Streamer("gamegiveawaystv", settings=StreamerSettings(make_predictions=True  , follow_raid=True , claim_drops=True  , watch_streak=True , bet=BetSettings(strategy=Strategy.SMART      , percentage=5 , stealth_mode=True,  percentage_gap=20 , max_points=234000 , filter_condition=FilterCondition(by=OutcomeKeys.TOTAL_USERS,      where=Condition.LTE, value=800 ) ) )),
-   
-        Streamer("krewlex", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
     
-        Streamer("loge_tv", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("NACHTMElSTER666", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("NEOFOX", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("ELBE POLY", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("MIND1", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("DORATHAADESTROYA", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("KAROLINGER", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("YANNOCK_", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-        
-        Streamer("PADINNPLAYS", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-    
-        Streamer("DADBODNERD", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("BACKYARDIS", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("MRBLACKBONES", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("KUASTIH", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("MODOZE_", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("MALAKIE", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-        Streamer("ULTRASAURUS", settings=StreamerSettings(claim_drops=True  , watch_streak=True , )),
-
-
-
-
-
-        
+        Streamer("loge_tv", settings=StreamerSettings(claim_drops=True  , watch_streak=True )),
+            
     
     ],# Array of streamers (order = priority)
     followers=False,                    # Automatic download the list of your followers

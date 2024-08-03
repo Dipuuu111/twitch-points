@@ -42,17 +42,19 @@ twitch_miner = TwitchChannelPointsMiner(
             streamer_offline="red",             # Read more in README.md
             BET_wiN=Fore.MAGENTA                # Color allowed are: [BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, RESET].
         ),
-        telegram=Telegram(                                                          # You can omit or set to None if you don't want to receive updates on Telegram
-            chat_id=123456789,                                                      # Chat ID to send messages @getmyid_bot
-            token="123456789:shfuihreuifheuifhiu34578347",                          # Telegram API token @BotFather
-            events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE,
-                    Events.BET_LOSE, Events.CHAT_MENTION],                          # Only these events will be sent to the chat
-            disable_notification=True,                                              # Revoke the notification (sound/vibration)
+        #telegram=Telegram(                                                          # You can omit or set to None if you don't want to receive updates on Telegram
+            #chat_id=123456789,                                                      # Chat ID to send messages @getmyid_bot
+            #token="123456789:shfuihreuifheuifhiu34578347",                          # Telegram API token @BotFather
+            #events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE,
+             #       Events.BET_LOSE, Events.CHAT_MENTION],                          # Only these events will be sent to the chat
+            #disable_notification=True,                                              # Revoke the notification (sound/vibration)
         ),
         discord=Discord(
-            webhook_api="https://discord.com/api/webhooks/1244501860174401547/L7l7b422Sz0pouLB8tbQFGwrLrFT-7WdAZs28DqFbgG3rZQlo8x-oyEFyxMeAO-6JjBZ",  # Discord Webhook URL
+            webhook_api="https://discord.com/api/webhooks/1269236217178882078/Zl9VMuZOaeAMfsNisr4WWzVOCKOvNAKSm4dhQoE0DfRo8VwnfdbbIDpozFv2N4ycRh8d",  # Discord Webhook URL
             events=[Events.STREAMER_ONLINE, Events.STREAMER_OFFLINE,
-                    Events.BET_LOSE, Events.CHAT_MENTION],                                  # Only these events will be sent to the chat
+                    Events.BET_LOSE, Events.CHAT_MENTION,
+                    Events.GAIN_FOR_WATCH,Events.GAIN_FOR_CLAIM,
+                    Events.BONUS_CLAIM,],                                  # Only these events will be sent to the chat
         ),
         matrix=Matrix(
             username="twitch_miner",                                                   # Matrix username (without homeserver)

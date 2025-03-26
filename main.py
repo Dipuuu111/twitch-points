@@ -118,7 +118,7 @@ def Chat_Hitsquad():
     print("Function executed!")
 
 def Chat_Gifty():
-channel = connection.join_channel("thegiftingchannel")
+    channel = connection.join_channel("thegiftingchannel")
     channel.send("!luckgift")
     print("Function executed!")
 

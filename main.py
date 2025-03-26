@@ -11,6 +11,9 @@ from TwitchChannelPointsMiner.classes.Settings import Priority, Events, Follower
 from TwitchChannelPointsMiner.classes.entities.Bet import Strategy, BetSettings, Condition, OutcomeKeys, FilterCondition, DelayMode
 from TwitchChannelPointsMiner.classes.entities.Streamer import Streamer, StreamerSettings
 from keep_alive import keep_alive
+import chat
+import schedule
+import time
 import os
 
 keep_alive()
@@ -104,7 +107,30 @@ twitch_miner = TwitchChannelPointsMiner(
 # If you haven't set any value even in the instance the default one will be used
 
 #twitch_miner.analytics(host="127.0.0.1", port=5000, refresh=5, days_ago=7)   # Start the Analytics web-server
+###
+#Chat module
+connection = chat.connect("cheeseplayz1234", "slx4ffm569522l7fm834afgup44m3g")
 
+
+def Chat_Hitsquad():
+    channel = connection.join_channel("hitsquadgodfather")
+    channel.send("!rank")
+    print("Function executed!")
+
+def Chat_Gifty():
+channel = connection.join_channel("thegiftingchannel")
+    channel.send("!luckgift")
+    print("Function executed!")
+
+# Schedule the function to run every hour
+schedule.every().hour.do(Chat_Gifty)
+schedule.every().hour.do(Chat_Hitsquad)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
+###
 
 twitch_miner.mine(
     [

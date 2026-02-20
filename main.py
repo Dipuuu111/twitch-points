@@ -11,10 +11,13 @@ from TwitchChannelPointsMiner.classes.Settings import Priority, Events, Follower
 from TwitchChannelPointsMiner.classes.entities.Bet import Strategy, BetSettings, Condition, OutcomeKeys, FilterCondition, DelayMode
 from TwitchChannelPointsMiner.classes.entities.Streamer import Streamer, StreamerSettings
 from keep_alive import keep_alive
-#import chat
 import schedule
 import time
 import os
+import threading
+import socket
+import random
+import re
 
 keep_alive()
 

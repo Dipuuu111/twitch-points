@@ -11,7 +11,3 @@ irc
 pandas
 pytz
 schedule
-socket
-time
-random
-re

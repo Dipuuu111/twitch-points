@@ -11,3 +11,8 @@ irc
 pandas
 pytz
 schedule
+threading
+socket
+time
+random
+re

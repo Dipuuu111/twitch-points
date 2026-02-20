@@ -91,40 +91,38 @@ twitch_miner = TwitchChannelPointsMiner(
         )
     )
 )
-# You can customize the settings for each streamer. If not settings were provided, the script would use the streamer_settings from TwitchChannelPointsMiner.
-# If no streamer_settings are provided in TwitchChannelPointsMiner the script will use default settings.
-# The streamers array can be a String -> username or Streamer instance.
 
-# The settings priority are: settings in mine function, settings in TwitchChannelPointsMiner instance, default settings.
-# For example, if in the mine function you don't provide any value for 'make_prediction' but you have set it on TwitchChannelPointsMiner instance, the script will take the value from here.
-# If you haven't set any value even in the instance the default one will be used
-
-#twitch_miner.analytics(host="127.0.0.1", port=5000, refresh=5, days_ago=7)   # Start the Analytics web-server
-###
-#Chat module
-#connection = chat.connect("cheeseplayz1234", "slx4ffm569522l7fm834afgup44m3g")
-
-
-#def Chat_Hitsquad():
-#    channel = connection.join_channel("hitsquadgodfather")
- #   channel.send("!rank")
-  #  print("Function executed!")
-
-#def Chat_Gifty():
-   # channel = connection.join_channel("thegiftingchannel")
-    #channel.send("!luckgift")
-    #print("Function executed!")
-
-# Schedule the function to run every hour
-#schedule.every().hour.do(Chat_Gifty)
-#schedule.every().hour.do(Chat_Hitsquad)
-
-#while True:
- #   schedule.run_pending()
-  #  time.sleep(1)
-
-###
-
+def run_gift_copier():
+    OAUTH_TOKEN = os.environ.get("TWITCH_OAUTH_TOKEN")
+    BOT_USERNAME = "cheeseplayz1234"
+    CHANNEL = "#thegiftingchannel"
+    TARGET_USER = "thegiftingchannel"
+    
+    irc = socket.socket()
+    irc.connect(("irc.chat.twitch.tv", 6667))
+    irc.send((f"PASS {OAUTH_TOKEN}\n").encode('utf-8'))
+    irc.send((f"NICK {BOT_USERNAME}\n").encode('utf-8'))
+    irc.send((f"JOIN {CHANNEL}\n").encode('utf-8'))
+    
+    while True:
+        try:
+            resp = irc.recv(2048).decode('utf-8')
+            if resp.startswith('PING'):
+                irc.send("PONG\n".encode('utf-8'))
+            elif len(resp) > 0:
+                match = re.search(r":(\w+)!.*PRIVMSG.*:(.*)", resp)
+                if match:
+                    username = match.group(1).lower()
+                    message = match.group(2).strip()
+                    if username == TARGET_USER and message.startswith("!luckygift"):
+                        time.sleep(random.randint(4, 9))
+                        irc.send((f"PRIVMSG {CHANNEL} :{message}\n").encode('utf-8'))
+        except Exception:
+            time.sleep(5)
+# put these two lines at the very bottom of main.py, right before miner.run() or miner.start()
+copier_thread = threading.Thread(target=run_gift_copier, daemon=True)
+copier_thread.start()
+#
 twitch_miner.mine(
     [
         

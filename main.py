@@ -123,8 +123,8 @@ def run_gift_copier():
         except Exception:
             time.sleep(5)
 # put these two lines at the very bottom of main.py, right before miner.run() or miner.start()
-copier_thread = threading.Thread(target=run_gift_copier, daemon=True)
-copier_thread.start()
+#copier_thread = threading.Thread(target=run_gift_copier, daemon=True)
+#copier_thread.start()
 #
 twitch_miner.mine(
     [

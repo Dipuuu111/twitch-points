@@ -20,9 +20,7 @@ import random
 import re
 import requests
 
-redeem_thread = threading.Thread(target=auto_redeem_gokiccoon, daemon=True)
-redeem_thread.start()
-keep_alive()
+
 
 def auto_redeem_gokiccoon():
     OAUTH_TOKEN       = os.environ.get("TWITCH_OAUTH_TOKEN")
@@ -91,6 +89,10 @@ def auto_redeem_gokiccoon():
             send_discord(f"❌ **AutoRedeem:** Failed to redeem **{reward_title}** — `{error}`")
         time.sleep(86400)
 
+
+redeem_thread = threading.Thread(target=auto_redeem_gokiccoon, daemon=True)
+redeem_thread.start()
+keep_alive()
 
 twitch_miner = TwitchChannelPointsMiner(
     username="cheeseplayz1234",

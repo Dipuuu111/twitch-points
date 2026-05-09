@@ -18,8 +18,79 @@ import threading
 import socket
 import random
 import re
+import requests
 
+redeem_thread = threading.Thread(target=auto_redeem_gokiccoon, daemon=True)
+redeem_thread.start()
 keep_alive()
+
+def auto_redeem_gokiccoon():
+    OAUTH_TOKEN       = os.environ.get("TWITCH_OAUTH_TOKEN")
+    CLIENT_ID         = os.environ.get("TWITCH_CLIENT_ID")
+    DISCORD_WEBHOOK   = "https://discord.com/api/webhooks/1378739038579720323/v-g_OmDODucmpA-zBjFzXufRhQtiQJQ8wy3RDg4isq0DGXlcy997S7_1Y-WyDYD7RsMD"
+
+    BROADCASTER_LOGIN = "gokiccoon"
+    REWARD_COST       = 10000
+
+    headers = {
+        "Authorization": f"Bearer {OAUTH_TOKEN}",
+        "Client-Id": CLIENT_ID,
+    }
+
+    def send_discord(message):
+        requests.post(DISCORD_WEBHOOK, json={"content": message})
+
+    def get_broadcaster_id():
+        r = requests.get("https://api.twitch.tv/helix/users", params={"login": BROADCASTER_LOGIN}, headers=headers)
+        data = r.json().get("data", [])
+        return data[0]["id"] if data else None
+
+    def get_my_user_id():
+        r = requests.get("https://api.twitch.tv/helix/users", headers=headers)
+        data = r.json().get("data", [])
+        return data[0]["id"] if data else None
+
+    def get_reward_id(broadcaster_id):
+        r = requests.get(
+            "https://api.twitch.tv/helix/channel_points/custom_rewards",
+            params={"broadcaster_id": broadcaster_id},
+            headers=headers
+        )
+        for reward in r.json().get("data", []):
+            if reward["cost"] == REWARD_COST:
+                return reward["id"], reward["title"]
+        return None, None
+
+    def redeem_reward(broadcaster_id, reward_id, user_id):
+        r = requests.post(
+            "https://api.twitch.tv/helix/channel_points/custom_rewards/redemptions",
+            params={"broadcaster_id": broadcaster_id, "reward_id": reward_id, "user_id": user_id},
+            headers=headers
+        )
+        return r.status_code, r.json()
+
+    broadcaster_id = get_broadcaster_id()
+    user_id = get_my_user_id()
+
+    if not broadcaster_id or not user_id:
+        send_discord("❌ **AutoRedeem:** Could not fetch Twitch user IDs. Check your tokens.")
+        return
+
+    reward_id, reward_title = get_reward_id(broadcaster_id)
+    if not reward_id:
+        send_discord(f"❌ **AutoRedeem:** No reward costing {REWARD_COST} points found on gokiccoon's channel.")
+        return
+
+    while True:
+        send_discord(f"⏳ **AutoRedeem:** About to redeem **{reward_title}** (10,000 pts) on gokiccoon...")
+        status, resp = redeem_reward(broadcaster_id, reward_id, user_id)
+        if status == 200:
+            send_discord(f"✅ **AutoRedeem:** Successfully redeemed **{reward_title}** on gokiccoon!")
+        else:
+            error = resp.get("message", "Unknown error")
+            send_discord(f"❌ **AutoRedeem:** Failed to redeem **{reward_title}** — `{error}`")
+        time.sleep(86400)
+
 
 twitch_miner = TwitchChannelPointsMiner(
     username="cheeseplayz1234",

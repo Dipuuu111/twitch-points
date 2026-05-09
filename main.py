@@ -89,7 +89,19 @@ def auto_redeem_gokiccoon():
             send_discord(f"❌ **AutoRedeem:** Failed to redeem **{reward_title}** — `{error}`")
         time.sleep(86400)
 
-
+def get_reward_id(broadcaster_id):
+    r = requests.get(
+        "https://api.twitch.tv/helix/channel_points/custom_rewards",
+        params={"broadcaster_id": broadcaster_id},
+        headers=headers
+    )
+    response_data = r.json()
+    send_discord(f"🔍 **AutoRedeem DEBUG:** Rewards response:\n```json\n{response_data}\n```")
+    for reward in response_data.get("data", []):
+        if reward["cost"] == REWARD_COST:
+            return reward["id"], reward["title"]
+    return None, None
+    
 redeem_thread = threading.Thread(target=auto_redeem_gokiccoon, daemon=True)
 redeem_thread.start()
 keep_alive()
